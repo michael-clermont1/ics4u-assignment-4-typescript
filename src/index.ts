@@ -7,52 +7,41 @@
 
 import promptSync from 'prompt-sync'
 
-function hourGlass (userNum: number, spaces: number = 0): string {
-  if (userNum === 1) {
-    return '*\n'
-  } else if (userNum > 1) {
-    const star = userNum
-    let string = ''
-    for (let counter1 = 0; counter1 < spaces; counter1++) {
-      string += ' '
-    }
-    for (let counter = 0; star > counter; counter++) {
-      string += '* '
-    }
-    console.log(string + '\n')
-    return hourGlass(userNum - 1, spaces + 1)
-  } else {
-    return 'ERROR'
+/**
+ * The hourGlass() function.
+ *
+ * @param {number} userNum - number from user
+ * @param  {number} spaces - spaces from user
+ */
+function hourGlass (userNum: number, spaces: number = 0): void {
+  let string = ''
+  for (let counter: number = 0; counter < spaces; counter++) {
+    string += ' '
   }
+  for (let counter1: number = 0; counter1 < userNum; counter1++) {
+    string += '* '
+  }
+  console.log(string + '\n')
+  if (userNum > 1) {
+    hourGlass(userNum - 1, spaces + 1)
+  }
+  console.log(string + '\n')
 }
 
-function reverseHourGlass (userNum: number, tempNum: number, spaces: number = 0): string {
-  if (tempNum > userNum) {
-    return 'Done.'
-  } else if (userNum >= tempNum) { 
-    const star = tempNum
-    let string = ''
-    for (let counter1 = 0; counter1 < spaces; counter1++) {
-      string += ' '
-    }
-    for (let counter = 0; star > counter; counter++) {
-      string += '* '
-    }
-    console.log(string + '\n')
-    return reverseHourGlass(userNum, tempNum + 1, spaces + 1)
-  } else {
-    return 'ERROR'
-  }
-}
-
+/**
+ * The main() function.
+ *
+ */
 function main (): void {
   const prompt = promptSync()
   const userString = prompt('Enter the hourglass length: ')
   console.log('')
   const userNumber = parseInt(userString)
-  const hourResult = hourGlass(userNumber)
-  console.log(hourResult) 
-  const reverseHourResult = reverseHourGlass(userNumber, 1)
-  console.log(reverseHourResult)
+  if (isNaN(userNumber)) {
+    console.log('Not an number.')
+  } else if (userNumber <= 0) {
+    console.log('That is an invalid number')
+  }
+  hourGlass(userNumber)
 }
 main()
